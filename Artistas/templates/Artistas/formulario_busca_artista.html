@@ -1,0 +1,23 @@
+{% extends "Base/header.html" %}
+{% load static %}
+
+{% if form.errors %}
+<p class="warning", style="color: red"> Los datos cargados no son correctos </p>
+{% endif %}
+
+{% block content %}
+<div class="container">
+    <h1> Tabla de Artistas </h1><br>
+    <p> Listado de todos los artistas cargados en la base de datos </p><br>
+    <form action="" method="GET">{% csrf_token %}
+        
+        <table>
+
+            {{ form.as_table }}
+
+        </table>
+        <input type="submit", value="Enviar">
+    </form>
+</div>
+<!-- fin div container -->
+{% endblock %}

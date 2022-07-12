@@ -8,6 +8,9 @@ class Base(models.Model):
     modificated_at = models.DateField(auto_now=True, null=False)
     deleted = models.BooleanField(default=False, null=False)
 
+    class Meta:
+        abstract = True
+
 
 SEXO = ( (1, "FEMENINO"), (2, "MASCULINO"), )
 
@@ -15,9 +18,14 @@ class Persona(Base):
     nombre = models.CharField(max_length=50, null=False)
     apellido = models.CharField(max_length=75, null=False)
 
+    class Meta:
+        abstract = True
 
 class PersonaMixin(Persona):
     identity = models.CharField(max_length=50, unique=True, null=False)
     email = models.EmailField()
     sexo = models.CharField(max_length=50, choices=SEXO)
     tel = models.CharField(max_length=50)
+
+    class Meta:
+        abstract = True
