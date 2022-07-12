@@ -7,6 +7,8 @@ class Base(models.Model):
     created_at = models.DateField(auto_now_add=True, null= False)
     modificated_at = models.DateField(auto_now=True, null=False)
     deleted = models.BooleanField(default=False, null=False)
+    class Meta: 
+        abstract = True
 
 
 SEXO = ( (1, "FEMENINO"), (2, "MASCULINO"), )
