@@ -13,6 +13,9 @@ class Base(models.Model):
     class Meta:
         abstract = True
 
+    class Meta:
+        abstract = True
+
 
 SEXO = ( (1, "FEMENINO"), (2, "MASCULINO"), )
 
