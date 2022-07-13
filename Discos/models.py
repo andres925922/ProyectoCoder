@@ -8,7 +8,9 @@ class Disco(Base):
     year=models.IntegerField()
     duration=models.DurationField()
 
-class Genero():
+class Genero(Base):
+    nombre=models.CharField(max_length=50)
+    
     
 
 
