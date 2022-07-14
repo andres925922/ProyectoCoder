@@ -10,6 +10,7 @@ ESTADOS = (
 class Cliente(PersonaMixin):
     id_number = models.CharField(max_length=50, unique=True, null=False)
     estado = models.CharField(max_length=50, choices=ESTADOS, default="ACTIVO", null=False)
+    
 
     def __getitem__(self, key):
         return self.__dict__[key]
