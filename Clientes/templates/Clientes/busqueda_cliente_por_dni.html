@@ -1,15 +1,11 @@
 {% extends "Base/header.html" %}
 {% load static %}
 
-{% if form.errors %}
-<p class="warning", style="color: red"> Los datos cargados no son correctos </p>
-{% endif %}
-
 {% block content %}
 <div class="container">
     <h1> {{ title }} </h1><br>
 
-    <form action="" method="GET">{% csrf_token %}
+    <form action="/clientes/buscar/" method="GET">{% csrf_token %}
         
         <table>
 

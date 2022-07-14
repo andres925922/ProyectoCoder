@@ -7,9 +7,6 @@ class Servicio_Cliente:
 
     def get_all_clientes(self) -> List[DTO_Clientes]:
         """ Taer todos los clientes de la base de datos """
-        print(" /n/n/n")
-        print(Cliente.objects.all().values())
-        print(" /n/n/n")
         return [self._dto_constructor(cliente, DTO_Clientes) for cliente in Cliente.objects.all().values()]
 
     def get_all_clientes_por_estado(self, estado) -> List[DTO_Clientes]:

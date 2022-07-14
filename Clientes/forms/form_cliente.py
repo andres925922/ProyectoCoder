@@ -17,3 +17,6 @@ class Formulario_Cliente(forms.Form):
             (3, "MOROSO"),
         )
     )
+
+class Formulario_Busqueda_cliente(forms.Form):
+    dni = forms.CharField(max_length=50)
