@@ -3,4 +3,15 @@
 {% block tittle %}
 <h1> Discos y generos </h1>
 
+{% if form_discos.errors %}
+<p style="color:red"> Estan mal los datos, revisar</p>
+{% endif %}
+
+<form action="" method="POST">{% csrf_token %}
+
+    <table>
+        {{ form_discos.as_table }}
+    </table>
+    <input type="submit", value="Enviar">
+</form>
 {% endblock %}

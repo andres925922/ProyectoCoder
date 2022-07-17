@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'Base',
     'Clientes',
     'Discos',
-    # 'Generos',
     'Artistas',
     'Canciones',
 ]
