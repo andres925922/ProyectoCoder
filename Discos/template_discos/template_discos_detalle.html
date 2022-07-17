@@ -1,0 +1,10 @@
+{% extends "Base/header.html" %}
+{% load static %}
+{% block tittle %}
+<h1> Discos y generos </h1>
+
+<p> Nombre: <i> {{ Disco.nombre }}</i></p>
+<p> Year: <i> {{ Disco.year }} </i></p>
+
+{% endfor %}
+{% endblock %}

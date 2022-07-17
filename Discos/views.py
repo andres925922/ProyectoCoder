@@ -1,8 +1,11 @@
+from msilib.schema import ListView
 from django.http import HttpResponse
 from django.shortcuts import render
 from Discos.models import Discos, Genero
 from django.http import HttpResponse
 from discos_forms import Discosformularios
+from django.views.generic import ListView
+from django.views.generic import DetailView
 
 # Create your views here.
 
@@ -35,3 +38,11 @@ def busqueda_discos(request):
 def buscar(request):
     respuesta=f'Estoy buscando el disco nombre: {request.GET[Discos.nombre]}'
     return HttpResponse(respuesta)
+
+class Discoslist(ListView):
+    model=Discos
+    template='Discos/template_discos/template_discos_list.html'
+
+class Discosdetalle(DetailView):
+    model=Discos
+    template='Discos/template_discos/template_discos_detalle.html'
