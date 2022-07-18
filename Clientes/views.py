@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from Base.exceptions import BaseEntityNotFoundError
+from Base.exceptions import BaseEntityNotFoundError, EntityAlreadyCreatedError
 
 from Clientes.models import Cliente
 from .services.service_cliente import Servicio_Cliente as SC
@@ -42,21 +42,23 @@ def render_crear_cliente(request):
     if request.method == "POST":
         form = Formulario_Cliente(request.POST)
         if form.is_valid:
-            info = form.cleaned_data
+            # info = form.cleaned_data
             data = Cliente(
-                id_number = info["id_number"],
-                nombre = info["nombre"],
-                apellido = info["apellido"],
-                identity = info["identity"],
-                email = info["email"],
-                sexo = info["sexo"],
-                tel = info["tel"],
-                estado = info["estado"] )
+                id_number = request.POST["id_number"],
+                nombre = request.POST["nombre"],
+                apellido = request.POST["apellido"],
+                identity = request.POST["identity"],
+                email = request.POST["email"],
+                sexo = request.POST["sexo"],
+                tel = request.POST["tel"],
+                estado = request.POST["estado"] )
             try:
                 service_cliente.crear_cliente(data)
-                return render_view_clientes(request=request)
-            except:
-                return HttpResponse("Ha ocurrido un error")
+                return redirect(render_view_clientes)
+            except EntityAlreadyCreatedError as e:
+                return HttpResponse(e)
+            except Exception as e:
+                return HttpResponse(e)
     else:
         form = Formulario_Cliente()
     
