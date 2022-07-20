@@ -10,7 +10,7 @@ from django.views.generic import DetailView
 # Create your views here.
 
 def render_view_discos(request):
-    discos=Discos.object.all()
+    discos=Discos.objects.all()
     if len(discos) == 0: 
         return HttpResponse('El artista seleccionado no tiene discos')
     else:

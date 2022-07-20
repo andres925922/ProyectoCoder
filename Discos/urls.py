@@ -3,7 +3,7 @@ from Discos.views import *
 
 
 urlpatterns = [
-    path('Discos/', render_view_discos, name="ver_discos"),
+    path('', render_view_discos, name="ver_discos"),
     path('formulario_disco/', formulario_disco),
     path('busquedadiscos/', busqueda_discos),
     path('buscar/', buscar),
