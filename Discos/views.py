@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from Discos.models import Discos, Genero
 from django.http import HttpResponse
-from discos_forms import Discosformularios
+from .discos_forms import Discosformularios
 from django.views.generic import ListView
 from django.views.generic import DetailView
 
