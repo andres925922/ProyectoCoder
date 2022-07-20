@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib import admin
 from Base.models import Base
 
 # Create your models here.
@@ -11,9 +12,5 @@ class Discos(Base):
 class Genero(Base):
     nombre=models.CharField(max_length=50)
     
-    
 
-
-
-
-
+admin.site.register([Genero, Discos])
