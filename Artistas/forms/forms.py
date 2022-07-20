@@ -8,3 +8,6 @@ class Artista_Formulario(forms.Form):
     banda = forms.ModelChoiceField(
         queryset=get_all_bandas()
     )
+
+class Banda_Formulario(forms.Form):
+    nombre = forms.CharField(max_length=50)

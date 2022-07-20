@@ -4,6 +4,9 @@ class DTO_Cliente:
         self.numero_cliente = kargs.get("x")["id_number"]
         self.nombre = kargs.get("x")["nombre"]
         self.apellido = kargs.get("x")["apellido"]
+        self.email = kargs.get("x")["email"]
+        self.sexo = kargs.get("x")["sexo"]
+        self.tel = kargs.get("x")["tel"]
         self.dni = kargs.get("x")["identity"]
         self.estado = kargs.get("x")["estado"]
     
