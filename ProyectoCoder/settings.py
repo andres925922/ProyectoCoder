@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'Discos',
     'Artistas',
     'Canciones',
+    'Users',
 ]
 
 MIDDLEWARE = [
