@@ -1,4 +1,5 @@
 from Base.models import About
+from Users.models import Avatar
 
 
 class About_DTO():
@@ -23,3 +24,10 @@ def get_about():
         _dto_constructor_about(person, About_DTO) for person in About.objects.all()
         ]
 
+def get_avatar(user):
+    avatar = Avatar.objects.select_related().filter(user = user)[0].img
+
+    if avatar:
+        return avatar
+    else:
+        return None

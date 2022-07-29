@@ -2,6 +2,8 @@ from pdb import post_mortem
 from django.shortcuts import render, HttpResponse, redirect
 
 from Base.exceptions import BaseEntityNotFoundError
+from Base.services.base_service import get_about
+from Base.services.base_service import get_avatar
 from .services.service_artistas import (
 get_all_artistas, 
 get_artista_por_nombre_y_apellido
@@ -15,12 +17,14 @@ from .models import Artista, Banda
 # Create your views here.
 
 def render_view_artistas(request):
-    
+  
     return render(
         request = request,
         template_name='Artistas/template_artistas.html',
         context= {
-            'artistas': get_all_artistas()
+            'artistas': get_all_artistas(),
+            'founders': get_about(),
+            'avatar': get_avatar(request.user.id)
         }
     )
 

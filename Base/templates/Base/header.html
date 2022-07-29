@@ -21,6 +21,9 @@
                 {% else %}
                     <img src="" alt="">
                     <p class="text-muted small mb-4 mb-lg-0">Bienvenido {{ user.username }}</p>
+                    <div class="dropdown text-end">
+                          <img src="../media/{{ avatar }}" alt="mdo" width="32" height="32" class="rounded-circle">
+                    </div>
                     <a class="btn btn-primary" href="{% url 'Logout' %}"> Logout </a>
                 {% endif %}
 
