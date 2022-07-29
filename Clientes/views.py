@@ -2,6 +2,8 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from Base.exceptions import BaseEntityNotFoundError, EntityAlreadyCreatedError
 
+from Base.services.base_service import get_about
+
 from Clientes.models import Cliente
 from .services.service_cliente import Servicio_Cliente as SC
 from .forms.form_cliente import Formulario_Cliente, Formulario_Busqueda_cliente
@@ -14,7 +16,9 @@ def render_view_clientes(request):
     return render(
         request=request, 
         template_name='Clientes/template_clientes.html', 
-        context={'clientes': service_cliente.get_all_clientes()}
+        context={'clientes': service_cliente.get_all_clientes(), 
+        'founders': get_about()
+        }
     )
 
 def render_buscar_cliente_por_dni(request):

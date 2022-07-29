@@ -22,8 +22,15 @@ Hasta ahora se permite:
 # App Artistas
 Hasta ahora se permite:
 1) Listar todos los artistas desde la url localhost/artistas/
+2) Listar todas las bandas desde la url localhost/bandas/
 2) Cargar un nuevo artista desde la url localhost/artistas/alta/
 3) Cargar una nueva banda desde la url localhost/artistas/alta_banda/
 
 # App Discos
 Todavía no se encuentra funcional
+
+# App Usuarios
+Hasta ahora se permite:
+1) Iniciar sesión mediante el boton Login
+2) Darse de alta desde el boton Sign up
+3) Cerrar sesión desde el boton Log Out

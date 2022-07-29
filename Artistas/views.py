@@ -1,7 +1,14 @@
-from django.shortcuts import render
+from pdb import post_mortem
+from django.shortcuts import render, HttpResponse, redirect
+
+from Base.exceptions import BaseEntityNotFoundError
 from .services.service_artistas import (
 get_all_artistas, 
 get_artista_por_nombre_y_apellido
+)
+from .services.service_bandas import (
+    get_all_bandas,
+    get_banda
 )
 from .forms.forms import Artista_Formulario, Banda_Formulario
 from .models import Artista, Banda
@@ -17,6 +24,15 @@ def render_view_artistas(request):
         }
     )
 
+def render_view_bandas(request):
+    return render(
+        request = request,
+        template_name='Bandas/template_bandas.html',
+        context= {
+            'artistas': get_all_bandas()
+        }
+    )
+
 def render_view_formulario_bandas(request):
     if request.method == "POST":
         formulario = Banda_Formulario(request.POST)
@@ -27,9 +43,7 @@ def render_view_formulario_bandas(request):
                 nombre = info['nombre']
             )
             banda.save()
-            return render(request, 'Artistas/template_artistas.html', context= {
-                'artistas': get_all_artistas()
-            })
+            return redirect(render_view_bandas)
     else:
         formulario = Banda_Formulario()
 
@@ -40,17 +54,19 @@ def render_view_formulario_artistas(request):
     if request.method == 'POST':
         formulario = Artista_Formulario(request.POST)
         if formulario.is_valid:
-            info = formulario.cleaned_data
-            artista = Artista(
-                nombre = info['nombre'],
-                apellido = info['apellido'],
-                nombre_artistico = info['nombre_artistico'],
-                banda = info['banda']
-            )
-            artista.save()
-            return render(request, 'Artistas/template_artistas.html', context= {
-                'artistas': get_all_artistas()
-            })
+            try:
+                banda = get_banda(request.POST['banda'])
+                artista = Artista(
+                    nombre = request.POST['nombre'],
+                    apellido = request.POST['apellido'],
+                    nombre_artistico = request.POST['nombre_artistico'],
+                    banda = banda,
+                    historia = request.POST['historia']
+                )
+                artista.save()
+                return redirect(render_view_artistas)
+            except BaseEntityNotFoundError as e:
+                return HttpResponse('Ocurrió un error al buscar la banda')
 
     else:
         formulario = Artista_Formulario()

@@ -1,5 +1,7 @@
 from django.db import models
 
+from django.contrib import admin
+
 # Create your models here.
 
 class Base(models.Model):
@@ -29,3 +31,18 @@ class PersonaMixin(Persona):
 
     class Meta:
         abstract = True
+
+class About(Persona):
+    description = models.TextField(max_length=300)
+    img = models.ImageField(upload_to='aboutImg', null=True, blank=True)
+
+    def __str__(self) -> str:
+        return f"{self.nombre} {self.apellido}"
+
+    def __getitem__(self, key):
+        return self.__dict__[key]
+
+
+
+admin.site.register(About)
+

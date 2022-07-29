@@ -17,3 +17,4 @@ class Message_Form(ModelForm):
             'from_',
             'read'
         ]
+
