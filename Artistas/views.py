@@ -2,8 +2,7 @@ from pdb import post_mortem
 from django.shortcuts import render, HttpResponse, redirect
 
 from Base.exceptions import BaseEntityNotFoundError
-from Base.services.base_service import get_about
-from Base.services.base_service import get_avatar
+from Base.services.base_service import get_information
 from .services.service_artistas import (
 get_all_artistas, 
 get_artista_por_nombre_y_apellido
@@ -14,27 +13,29 @@ from .services.service_bandas import (
 )
 from .forms.forms import Artista_Formulario, Banda_Formulario
 from .models import Artista, Banda
+
 # Create your views here.
 
 def render_view_artistas(request):
+
+    information = get_information(request.user)
+    information['artistas'] = get_all_artistas()
   
     return render(
         request = request,
-        template_name='Artistas/template_artistas.html',
-        context= {
-            'artistas': get_all_artistas(),
-            'founders': get_about(),
-            'avatar': get_avatar(request.user.id)
-        }
+        template_name ='Artistas/template_artistas.html',
+        context = information
     )
 
 def render_view_bandas(request):
+
+    information = get_information(request.user)
+    information['bandas'] = get_all_bandas()
+
     return render(
         request = request,
         template_name='Bandas/template_bandas.html',
-        context= {
-            'artistas': get_all_bandas()
-        }
+        context= information
     )
 
 def render_view_formulario_bandas(request):

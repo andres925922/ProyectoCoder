@@ -1,5 +1,8 @@
 import re
 from django.shortcuts import render, redirect, get_list_or_404, get_object_or_404
+
+from Artistas.views import render_view_artistas
+from Users.forms.messenger_form import Message_Form
 from .forms.user_form import User_Auth_Form, User_Creation_Form, User_Update_Form
 from django.contrib.auth import login, logout, authenticate
 from django.http import HttpResponse, Http404, JsonResponse
@@ -14,6 +17,8 @@ from django.contrib.auth.models import User
 
 from Clientes.views import render_view_clientes
 
+from Base.exceptions import EntityCouldNotBeenCreated
+
 # Create your views here.
 
 def request_login(request):
@@ -27,7 +32,7 @@ def request_login(request):
             user = authenticate(username=usr, password=pwd)
             if user is not None:
                 login(request, user=user)
-                return redirect(render_view_clientes)
+                return redirect(render_view_artistas)
             else:
                 return HttpResponse("Error al loguear")
 
@@ -85,45 +90,74 @@ def get_room(request):
     if request.method == "GET":
         all_users = User.objects.exclude(username = request.user)
         rooms = User.objects.get(username=request.user).rooms.all()
-        users = rooms[0].users.all()
-        messages = rooms[0].messages.all()
-        print(request.user, rooms[0], messages, users)
+        lista_rooms = []
+
+        for room in rooms:
+            for user in Room.objects.get(id = room.id).users.all():
+                if user != request.user:
+                    lista_rooms.append(
+                        {'user': user, 'room': room}
+                    )
+
+
         return render(
             request=request, 
             template_name='Messenger/room_list.html', 
             context={
-                'rooms': rooms,
+                'rooms': lista_rooms,
                 'all_users': all_users
                 }
         )
 
+    if request.methos == 'POST':
+        print('hola')
+    
+def get_conversation(request, pk = None, to = None):
 
+    user = User.objects.get(id = request.user.id)
+    room = Room.objects.get(id = pk)
+    para = room.users.filter(id = to)[0]
+    messages = room.messages.all()
 
-class Room_List_View(TemplateView):
-    template_name = 'Messenger/room_list.html'
+    if room == None:
+        start_room(user, para)
+        
 
-# Vista para listar todos los mensajes de un hilo
-class Room_Detail_View(DetailView):
-    model = Room
-    template_name: str = 'Messenger/room_detail.html'
+    if request.method == "POST":
+        data = request.POST
+        form = Message_Form(data=data)
+        if form.is_valid():
+            print('Es válido')
+            add_message(form, room.id)    
 
-    def get_object(self):
-        obj = super(Room_Detail_View, self).get_object()
-        if self.request.user not in obj.users.all():
-            raise Http404()
-        return obj
+    form = Message_Form(initial={
+            "sender" : user
+    })
 
+    return render(
+        request=request,
+        template_name='Messenger/room_detail.html',
+        context={
+            "msg": messages,
+            "form": form
+        }
+    )
 
-def start_room(request, username):
-    user = get_object_or_404(User, username=username)
-    hilo = Room.objects.find_or_create(user, request.user)
-    return redirect(reverse_lazy('messenger:detail', args=[hilo.pk]))
+def start_room(username1, username2):
+    user = get_object_or_404(User, username=username1)
+    hilo = Room.objects.find_or_create(user, username2)
+    return hilo
 
-def add_message(request, pk):
-    content = request.GET.get('content', None)
-    if content:
-        hilo = get_object_or_404(Room, pk=pk)
-        message = Message.objects.create(sender = request.user, body=content)
+def add_message(message, room_id):
+    # print(message.cleaned_data['sender'].id, message.cleaned_data['body'])
+    # return
+    try:
+        hilo = Room.objects.get(id = room_id)
+        message = Message.objects.create(
+            sender = message.cleaned_data['sender'], 
+            body = message.cleaned_data['body']
+        )
         hilo.messages.add(message)
+    except:
+        raise EntityCouldNotBeenCreated('Ha ocurrido un error al crear el mensaje')
 
-    return JsonResponse({'creado': True})

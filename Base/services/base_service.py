@@ -16,12 +16,14 @@ class About_DTO():
         except IndexError:
             return {}
 
-def _dto_constructor_about(person: About, DTO):
-    return DTO(x = person)
+    @classmethod
+    def _dto_constructor_about(cls, person: About, DTO):
+        return DTO(x = person)
 
 def get_about():
     return [
-        _dto_constructor_about(person, About_DTO) for person in About.objects.all()
+        About_DTO
+        ._dto_constructor_about(person, About_DTO) for person in About.objects.all()
         ]
 
 def get_avatar(user):
@@ -31,3 +33,9 @@ def get_avatar(user):
         return avatar
     else:
         return None
+
+def get_information(user):
+    return {
+        'avatar': get_avatar(user.id),
+        'founders': get_about()
+    }

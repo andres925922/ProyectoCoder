@@ -1,53 +1,40 @@
 {% extends 'Base/header.html' %}
 {% load static %}
-{% block title %}Mensajes{% endblock %}
 {% block content %}
 <style>
   .avatar  { width:50px; height:50px; float:left; margin-right:10px; }
 </style>
 <main role="main">
   <div class="container">
-    <div class="row mt-3">
-      <div class="col-md-9 mx-auto mb-5">
-            <!-- Recorremos los Hilos  -->
-        <!-- {% for i in rooms %}
-            {{ i }}
-        {% endfor %} -->
-            <div class="col-md-4">
-                <!-- Con una búsqueda inversa también podemos conseguir los hilos de un usuario -->
-                {% for room in request.user.rooms.all %}
-                  <!-- Sólo mostraremos un Hilo si tiene como mínimo 1 mensaje -->
-                  {% if room.messages.all|length > 0 %}
-                    <div class="mb-3">
-                      <!-- Recorremos los miembros del hilo menos el propio request.user -->
-                      {% for user in room.users.all %}
-                        {% if user != request.user %}    
-                          <!-- Mostramos la información del miembro --> 
-                          <div>
-                            <a href="{% url 'detailed' room.pk %}">{{user}}</a><br>
-                          </div>
-                        {% endif %}
-                      {% endfor %}
-                    </div>
-                  {% endif %}
-                {% endfor %}
-            </div>
-            <div class="col-md-4">
-                <form action="">
-                    <select name="usuario" id="">
-                        {% for usr in all_users %}
-                        <option value="{{usr}}">{{usr}}</option>
-                        {% endfor %}
-                    </select>
-                    <a href="{% url 'newMsg' %}">
-                        <input type="submit" value="Nuevo Mensaje">
-                    </a>
-                </form>
-
-            </div>
-
+    <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 380px;">
+      <a href="/" class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+        <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+        <span class="fs-5 fw-semibold">Hilos abiertos</span>
+      </a>
+      {% for hilo in rooms %}
+      <div class="list-group list-group-flush border-bottom scrollarea">
+        <a href="{% url 'detailed' hilo.room.id hilo.user.id %}" class="list-group-item list-group-item-action active py-3 lh-sm" aria-current="true">
+          <div class="d-flex w-100 align-items-center justify-content-between">
+            <strong class="mb-1">{{hilo.user.username}}</strong>
+          </div>
       </div>
+      {% endfor %}
     </div>
+  </div>
+  <div class="container">
+      <form action="{% url 'Mensajes' %}" method="POST" class="row g-3">{% csrf_token %}
+        <div class="col-md-6">
+        <select name="userid" id="" class="form-select" type="select">
+          <option selected="" disabled="" value="">Choose...</option>
+          {% for user in all_users %}
+          <option value="{{user.id}}">{{user.username}}</option>
+          {% endfor %}
+        </select>
+        </div>
+        <div class="col-md-2">
+        <input type="submit" class="btn btn-primary" value="Nuevo Mensaje">
+        </div>
+      </form>
   </div>
 </main>
 {% endblock %}
