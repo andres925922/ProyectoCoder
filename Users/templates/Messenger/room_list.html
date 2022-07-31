@@ -1,9 +1,6 @@
 {% extends 'Base/header.html' %}
 {% load static %}
 {% block content %}
-<style>
-  .avatar  { width:50px; height:50px; float:left; margin-right:10px; }
-</style>
 <main role="main">
   <div class="container">
     <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 380px;">
@@ -11,6 +8,12 @@
         <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
         <span class="fs-5 fw-semibold">Hilos abiertos</span>
       </a>
+      <div class="list-group list-group-flush border-bottom scrollarea">
+        <a href="{% url 'newMsg' %}" class="list-group-item list-group-item-action active py-3 lh-sm" aria-current="true">
+          <div class="d-flex w-100 align-items-center justify-content-between">
+            <strong class="mb-1">Nuevo Mensaje</strong>
+          </div>
+      </div>
       {% for hilo in rooms %}
       <div class="list-group list-group-flush border-bottom scrollarea">
         <a href="{% url 'detailed' hilo.room.id hilo.user.id %}" class="list-group-item list-group-item-action active py-3 lh-sm" aria-current="true">
@@ -21,7 +24,7 @@
       {% endfor %}
     </div>
   </div>
-  <div class="container">
+  <!-- <div class="container">
       <form action="{% url 'Mensajes' %}" method="POST" class="row g-3">{% csrf_token %}
         <div class="col-md-6">
         <select name="userid" id="" class="form-select" type="select">
@@ -35,6 +38,6 @@
         <input type="submit" class="btn btn-primary" value="Nuevo Mensaje">
         </div>
       </form>
-  </div>
+  </div> -->
 </main>
 {% endblock %}

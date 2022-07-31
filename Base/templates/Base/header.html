@@ -12,18 +12,18 @@
         <header class="p-3 mb border-bottom">
             <div class="container">
                 <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            
-                    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                      <li><a class="nav-link px-2 link-secondary" href="{% url 'ver_discos' %}"> Discos</a></li>
-                      <li><a class="nav-link px-2 link-secondary" href="{% url 'all_artistas' %}"> Artistas</a></li>
-                      <li><a class="nav-link px-2 link-secondary" href="{% url 'all_artistas' %}"> Canciones</a></li>
-                      <!-- <li><a href="#" class="nav-link px-2 link-dark">Products</a></li> -->
-                    </ul>
 
                     {% if not request.user.is_authenticated  %}
                     <a class="nav-link px-2 link-secondary" href="{% url 'Login' %}"> Login in</a>
                     <a class="nav-link px-2 link-secondary" href="{% url 'AltaUsuario' %}"> Sign up</a>
                     {% else %}
+                        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                            <li><a class="nav-link px-2 link-secondary" href="{% url 'ver_discos' %}"> Discos</a></li>
+                            <li><a class="nav-link px-2 link-secondary" href="{% url 'all_artistas' %}"> Artistas</a></li>
+                            <li><a class="nav-link px-2 link-secondary" href="{% url 'all_artistas' %}"> Canciones</a></li>
+                            <!-- <li><a href="#" class="nav-link px-2 link-dark">Products</a></li> -->
+                        </ul>
+
                         <a href="#" class="d-block link-dark text-decoration-none" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="../media/{{ avatar }}" alt="mdo" width="32" height="32" class="rounded-circle">
                         </a>

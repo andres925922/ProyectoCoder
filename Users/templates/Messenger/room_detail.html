@@ -2,6 +2,19 @@
 {% load static %}
 {% block content %}
 
+<br><div class="container">
+  <div class="row">
+    <form action="" method="POST" class="form-floating mb-3">
+      {% csrf_token %}
+      {{ form.as_table}}
+      <br>
+      <div class="col-md-3">
+        <input type="submit", value="Enviar">
+      </div>
+      
+    </form>
+  </div>
+</div>
 
 <article class="my-3" id="toasts">
   <div class="bd-heading sticky-xl-top align-self-start mt-5 mb-3 mt-xl-0 mb-xl-2">
@@ -29,14 +42,7 @@
   </div>
 </article>
 
-<div class="container">
-  <div class="row">
-    <form action="" method="POST" class="form-floating mb-3">{% csrf_token %}
-      {{ form.as_table}}
-      <input type="submit", value="Enviar">
-    </form>
-  </div>
-</div>
+
 
 
 {% endblock %}
