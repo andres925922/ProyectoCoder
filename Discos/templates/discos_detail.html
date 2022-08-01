@@ -1,0 +1,11 @@
+{% extends "Base/header.html" %}
+{% load static %}
+{% block content %}
+
+<h1> Disco {{ object.nombre }} </h1>
+
+<p>
+    Publicado en {{ object.year }}. Dura en total {{ object.duration }} minutos.
+</p>
+
+{% endblock %}

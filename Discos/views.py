@@ -8,11 +8,6 @@ from .discos_forms import Discosformularios
 from django.views.generic import ListView, UpdateView
 from django.views.generic import DetailView, CreateView
 
-# Create your views here.
-
-def test_view(req):
-    return render(req, 'test.html')
-
 def render_view_discos(request):
     discos=Discos.objects.all()
     if len(discos) == 0: 
@@ -49,7 +44,7 @@ class Discoslist(ListView):
 
 class Discosdetalle(DetailView):
     model=Discos
-    template='Discos/template_discos/template_discos_detalle.html'
+    template_name = 'discos_detail.html'
 
 def eliminar_disco(request, disco_nombre):
     disco=Discos.objects.get(nombre=disco_nombre)

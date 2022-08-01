@@ -5,7 +5,8 @@
 <h1> Discos y generos </h1>
 
 {% for disco in object_list %}
-    <li> {{ disco }} </li>
+    <!-- TODO: Cambiar esto para que use rever     -->
+    <li><a href="/discos/{{disco.id}}">{{ disco }}</a></li>
 {% endfor %}
 
 {% endblock %}
