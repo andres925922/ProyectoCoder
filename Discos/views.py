@@ -1,13 +1,17 @@
 from msilib.schema import ListView
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from Discos.models import Discos, Genero
 from django.http import HttpResponse
 from .discos_forms import Discosformularios
-from django.views.generic import ListView
-from django.views.generic import DetailView
+from django.views.generic import ListView, UpdateView
+from django.views.generic import DetailView, CreateView
 
 # Create your views here.
+
+def test_view(req):
+    return render(req, 'test.html')
 
 def render_view_discos(request):
     discos=Discos.objects.all()
@@ -41,8 +45,22 @@ def buscar(request):
 
 class Discoslist(ListView):
     model=Discos
-    template='Discos/template_discos/template_discos_list.html'
+    template_name = 'discos_list.html'
 
 class Discosdetalle(DetailView):
     model=Discos
     template='Discos/template_discos/template_discos_detalle.html'
+
+def eliminar_disco(request, disco_nombre):
+    disco=Discos.objects.get(nombre=disco_nombre)
+    disco.delete()
+    disco= Discos.objects.all() 
+    return render(request, 'Discos/leerdiscos.html', {'disco':disco})
+
+class Editardiscos(UpdateView):
+    model=Discos
+    success_url= reverse_lazy('editar_disco')
+    fields=['nombre', 'year', 'duration']
+
+
+

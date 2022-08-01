@@ -1,10 +1,10 @@
 {% extends "Base/header.html" %}
 {% load static %}
-{% block tittle %}
+{% block title %}
 <h1> Discos y generos </h1>
 
-{% for disco in object_list %}
-    <li> {{ disco }} </li>
+<p> Nombre: <i> {{ Disco.nombre }}</i></p>
+<p> Year: <i> {{ Disco.year }} </i></p>
 
 {% endfor %}
 {% endblock %}

@@ -1,0 +1,20 @@
+{% extends "Base/header.html" %}
+{% load static %}
+{% block title %}
+<h1> Formulario de discos </h1>
+{% if formulario.erros %}
+<p style="color: red"> Hay un error en el formulario </p>
+{% endif %}
+
+<form action="{% url 'discosformulario' %}" method="POST"> {% csrf_token %}
+
+    <table>
+        {{ formulario.as_table }}
+    </table>
+
+    <input type="submit" value="enviar">
+
+</form>
+
+
+{% endblock %}

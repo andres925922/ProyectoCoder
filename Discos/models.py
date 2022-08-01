@@ -6,9 +6,16 @@ from Base.models import Base
 # Create your models here.
 
 class Discos(Base):
+    class Meta:
+        # Cambia el nombre en plural con el que modelo discos aparece en el admin
+        verbose_name_plural = "Discos"
+
     nombre=models.CharField(max_length=50)
     year=models.IntegerField()
     duration=models.DurationField()
+
+    def __str__(self):
+        return self.nombre
 
 class Genero(Base):
     nombre=models.CharField(max_length=50)
@@ -33,4 +40,4 @@ class Canciones_Banda(Base):
         Banda, on_delete=models.CASCADE, blank=True, null=False
     )
 
-admin.site.register([Genero, Discos])
+admin.site.register([Genero, Discos, Canciones])
