@@ -2,11 +2,28 @@ from msilib.schema import ListView
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.shortcuts import render, redirect
+from Base.exceptions import BaseEntityNotFoundError
 from Discos.models import Discos, Genero
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from .discos_forms import Discosformularios
 from django.views.generic import ListView, UpdateView
 from django.views.generic import DetailView, CreateView
+from django.views.generic import ListView
+from django.views.generic import DetailView
+
+from Base.services.base_service import get_information
+
+from Discos.forms.discos_form import(
+    Generos_Form,
+    Discos_Form,
+    Canciones_Form
+)
+
+from Discos.services.discos_service import Genero_Service
+genero_service = Genero_Service()
+
+# Create your views here.
 
 def render_view_discos(request):
     discos=Discos.objects.all()
@@ -44,18 +61,76 @@ class Discoslist(ListView):
 
 class Discosdetalle(DetailView):
     model=Discos
-    template_name = 'discos_detail.html'
-
-def eliminar_disco(request, disco_nombre):
-    disco=Discos.objects.get(nombre=disco_nombre)
-    disco.delete()
-    disco= Discos.objects.all() 
-    return render(request, 'Discos/leerdiscos.html', {'disco':disco})
-
-class Editardiscos(UpdateView):
-    model=Discos
-    success_url= reverse_lazy('editar_disco')
-    fields=['nombre', 'year', 'duration']
+    template='Discos/template_discos/template_discos_detalle.html'
 
 
+# ***********************************************************
+# vistas de genero
+# ***********************************************************
 
+
+def get_all_generos(request):
+
+    information = get_information(request.user)
+    information['generos'] = genero_service.get_generos()
+
+    return render(
+        request = request,
+        template_name='Generos/template_generos.html',
+        context = information
+    )
+
+def create_genero(request):
+
+    information = get_information(request.user)
+
+    if request.method == 'POST':
+        form_generos = Generos_Form(request.POST)
+        if form_generos.is_valid():
+            form_generos.save()
+            return redirect(get_all_generos)
+        else:
+            raise Http404('Ha ocurrido un error')
+
+    else:
+        form_generos = Generos_Form()
+        information['form'] = form_generos
+
+    return render(
+        request = request,
+        template_name='Generos/create_form.html',
+        context = information
+    )
+
+def update_genero(request, id = None):
+
+    information = get_information(request.user)
+    genero = Genero.objects.get(id=id)
+
+    if request.method == 'POST':
+
+        form_generos = Generos_Form(request.POST, instance=genero)
+        if form_generos.is_valid():
+            form_generos.save()
+            return redirect(get_all_generos)
+        # else:
+        #     return Http404()
+
+    else:
+        form_generos = Generos_Form( instance=genero)
+        information['form'] = form_generos
+
+    return render(
+        request = request,
+        template_name='Generos/update_form.html',
+        context = information
+    )
+
+def delete_genero(request, id = None):
+    if id != None:
+        try:
+            genero_service.baja_genero(data=id)
+        except BaseEntityNotFoundError:
+            return Http404('Ocurrió un error')
+
+    return redirect(get_all_generos)

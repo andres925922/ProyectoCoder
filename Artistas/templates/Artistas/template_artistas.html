@@ -1,35 +1,63 @@
 {% extends "Base/header.html" %}
 {% load static %}
 
+<style>
+    .module {
+  width: 250px;
+  margin: 0 0 1em 0;
+  overflow: hidden;
+    }
+
+    .module p {
+    margin: 0;
+    }
+
+    .line-clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    }
+</style>
+
 {% block content %}
+
 <div class="container">
-    <h1> Tabla de Artistas </h1><br>
-    <p> Listado de todos los artistas cargados en la base de datos </p><br>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <!-- <th scope="col">Creación</th>
-                <th scope="col">Modificación</th> -->
-                <th scope="col">Nombre</th>
-                <th scope="col">Apellido</th>
-                <th scope="col">Banda</th>
-            </tr>
-        </thead>
-        <tbody>         
-            {% for value in artistas %}
-            
-            <tr>
-                <td scope="row">{{ value.id}}</td>
-                <!-- <td scope="row">{{ value.creation_date }}</td>
-                <td scope="row">{{ value.modification_date }}</td> -->
-                <td scope="row">{{ value.nombre }}</td>
-                <td scope="row">{{ value.apellido }}</td>
-                <td scope="row">{{ value.banda }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+
 </div>
+
+<div>
+<div class="container"><div class="bd-example">
+    <h1>{% block title %} Artistas {% endblock %}</h1><br>
+    <div class="row">
+        <div class="col"><a href="{% url 'alta_artista' %}">Agregar artista</a></div>
+    </div><br>
+    {% if artistas is None %}
+    <h3> No hay información disponible aún</h3>
+    {% endif %}
+    {% for value in artistas %}
+    <div class="row  row-cols-1 row-cols-md-2 g-4">
+       <div class="col">
+        <div class="card">
+          <div class="card-header">
+            {{ value.nombre_artistico }}
+          </div>
+          <div class="card-body module line-clamp">
+            <h5 class="card-title">{{ value.nombre }} {{ value.apellido }}</h5>
+            <p class="card-text">{{ value.historia }}</p>
+            {% if not request.user.is_authenticated  %}
+            <a href="{% url 'artista_detalle' value.id %}" class="btn btn-primary">Ver detalle</a>
+            {% endif %}
+          </div>
+          <div class="card-footer text-muted">
+            Actualizado por última vez: {{ value.modificated_at }}
+          </div>
+        </div>
+      </div>
+    </div><br>
+    {% endfor %}
+    </div></div>
+
+</div>
+
 <!-- fin div container -->
 {% endblock %}

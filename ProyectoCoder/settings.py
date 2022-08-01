@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'Clientes',
     'Discos',
     'Artistas',
-    'Canciones',
     'Users',
 ]
 

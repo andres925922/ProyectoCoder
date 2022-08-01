@@ -6,3 +6,6 @@ class MultipleEntitiesFoundedError(Exception):
 
 class EntityAlreadyCreatedError(Exception):
     pass
+
+class EntityCouldNotBeenCreated(Exception):
+    pass

@@ -1,18 +1,22 @@
 import re
-from django.shortcuts import render, redirect, get_list_or_404, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
+
+from Artistas.views import render_view_artistas
+from Users.forms.messenger_form import Message_Form, New_Room_Form
 from .forms.user_form import User_Auth_Form, User_Creation_Form, User_Update_Form
 from django.contrib.auth import login, logout, authenticate
-from django.http import HttpResponse, Http404, JsonResponse
+from django.http import HttpResponse
 
-from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
-from django.views.generic import TemplateView
-from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
 
 from .models import Avatar, Room, Message
 from django.contrib.auth.models import User
+from Base.services.base_service import get_information
 
 from Clientes.views import render_view_clientes
+
+from Base.exceptions import EntityCouldNotBeenCreated, BaseEntityNotFoundError
 
 # Create your views here.
 
@@ -27,7 +31,7 @@ def request_login(request):
             user = authenticate(username=usr, password=pwd)
             if user is not None:
                 login(request, user=user)
-                return redirect(render_view_clientes)
+                return redirect(render_view_artistas)
             else:
                 return HttpResponse("Error al loguear")
 
@@ -73,7 +77,7 @@ def edit_user(request):
 
 def logout_view(request):
     logout(request)
-    return redirect(render_view_clientes)
+    return redirect(render_view_artistas)
 
 
 # -----------------------------------------------------
@@ -81,49 +85,140 @@ def logout_view(request):
 # -----------------------------------------------------
 
 # Vista para listar los hilos de un usuario
+@login_required
 def get_room(request):
+
+    """
+    Función que nos permite listar todos los hilos de conversación abiertos entre usuarios para luego al dar click sobre alguno de ellos nos permita dirigirnos al hilo propiamente dicho.
+    No toma parámetros.
+
+    """
+    information = get_information(request.user)
+
     if request.method == "GET":
         all_users = User.objects.exclude(username = request.user)
         rooms = User.objects.get(username=request.user).rooms.all()
-        users = rooms[0].users.all()
-        messages = rooms[0].messages.all()
-        print(request.user, rooms[0], messages, users)
+        lista_rooms = []
+
+        for room in rooms:
+            for user in Room.objects.get(id = room.id).users.all():
+                if user != request.user:
+                    lista_rooms.append(
+                        {'user': user, 'room': room}
+                    )
+
+        information['rooms'] = lista_rooms
+        information['all_users'] = all_users
+
+
         return render(
             request=request, 
             template_name='Messenger/room_list.html', 
-            context={
-                'rooms': rooms,
-                'all_users': all_users
-                }
+            context=information
         )
 
+@login_required
+def get_conversation(request, pk = None, to = None):
 
+    """ 
+    Función que nos permite traer todos los mensajes pertenecientes a un hilo de conversación
+    pk:int
+    to:int
+    Deben pasarse como parámetros la id de la room o hilo a la cual estamos haciendo referencia y además el destinatario que viene al cliclear sobre el hilo que queremos abrir de la página de mensajes
 
-class Room_List_View(TemplateView):
-    template_name = 'Messenger/room_list.html'
+    """
+    information = get_information(request.user)
+    user = User.objects.get(id = request.user.id)
+    room = Room.objects.get(id = pk)
+    para = room.users.filter(id = to)[0]
+    messages = room.messages.all()
 
-# Vista para listar todos los mensajes de un hilo
-class Room_Detail_View(DetailView):
-    model = Room
-    template_name: str = 'Messenger/room_detail.html'
+    if room == None:
+        start_room(user, para)
+        
 
-    def get_object(self):
-        obj = super(Room_Detail_View, self).get_object()
-        if self.request.user not in obj.users.all():
-            raise Http404()
-        return obj
+    if request.method == "POST":
+        data = request.POST
+        form = Message_Form(data=data)
+        print(form)
+        if form.is_valid():
+            add_message(form, room.id)    
 
+    form = Message_Form(initial={
+            "sender" : user
+    })
 
-def start_room(request, username):
-    user = get_object_or_404(User, username=username)
-    hilo = Room.objects.find_or_create(user, request.user)
-    return redirect(reverse_lazy('messenger:detail', args=[hilo.pk]))
+    information['msg'] = messages
+    information['form'] = form
 
-def add_message(request, pk):
-    content = request.GET.get('content', None)
-    if content:
-        hilo = get_object_or_404(Room, pk=pk)
-        message = Message.objects.create(sender = request.user, body=content)
+    return render(
+        request=request,
+        template_name='Messenger/room_detail.html',
+        context=information
+    )
+
+def start_room(username1, username2):
+    """
+    Función que recibe como parámetros dos usuarios e inicia un nuevo hilo o room en caso de que no exista
+    username1:str
+    username2:str
+    """
+    user = get_object_or_404(User, username=username1)
+    hilo = Room.objects.find_or_create(user, username2)
+    return hilo
+
+def add_message(message, room_id):
+    """
+    Función que nos permite agregar un mensaje al hilo.
+    room_id:int
+    Toma como parámetro la ide de la room o hilo de manera de poder vincular el mensaje al hilo.
+
+    """
+
+    try:
+        hilo = Room.objects.get(id = room_id)
+        message = Message.objects.create(
+            sender = message.cleaned_data['sender'], 
+            body = message.cleaned_data['body']
+        )
         hilo.messages.add(message)
+    except:
+        raise EntityCouldNotBeenCreated('Ha ocurrido un error al crear el mensaje')
 
-    return JsonResponse({'creado': True})
+@login_required
+def new_message(request):
+    users = User.objects.exclude(username = request.user.username)
+
+    if request.method == 'POST':
+        data = request.POST
+        print(data)
+
+        try:
+            sender = User.objects.get(id = request.user.id)
+            to = User.objects.get(id = data['userid'])
+        except:
+            raise BaseEntityNotFoundError('Entidades no encontradas')
+
+        room = Room.objects.find_or_create(
+            user1 = sender,
+            user2 = to
+        )
+
+        if room:
+            return redirect(reverse('detailed', kwargs={
+                'pk': room.id,
+                'to' : data['userid']
+            }))
+            # return redirect(get_conversation, kwargs=
+            # {'pk' : room.id,
+            # 'to' : to.id} 
+            # )
+
+    return render(
+        template_name = 'Messenger/nuevo_mensaje.html',
+        request = request,
+        context = {
+            'all_users' : users
+        }
+    )
+

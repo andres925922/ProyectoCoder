@@ -13,12 +13,24 @@ class Discos(Base):
     nombre=models.CharField(max_length=50)
     year=models.IntegerField()
     duration=models.DurationField()
+    banda = models.ForeignKey(
+        to= Banda, on_delete=models.PROTECT
+    )
+
+    def __str__(self):
+        return self.nombre
 
     def __str__(self):
         return self.nombre
 
 class Genero(Base):
-    nombre=models.CharField(max_length=50)
+    nombre=models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.nombre
+
+    def __getitem__(self, key):
+        return self.__dict__[key]
 
 class Canciones(Base):
     nombre = models.CharField(max_length=50)
@@ -27,7 +39,8 @@ class Canciones(Base):
     bandas = models.ManyToManyField(
         Banda,
         through='Canciones_Banda'
-        )
+    )
+    genero = models.ForeignKey(Genero, on_delete=models.PROTECT, null=False)
 
     def __str__(self):
         return self.nombre

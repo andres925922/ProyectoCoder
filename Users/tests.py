@@ -26,15 +26,20 @@ class Room_Test_Case(TestCase):
         self.room.users.add(self.user1, self.user2)
         msg1 = Message.objects.create(
             body = "Hola buenas",
-            room = self.room,
             sender = self.user1
         )
         msg2 = Message.objects.create(
             body = "Hola buenas",
-            room = self.room,
             sender = self.user1
         )
-        self.assertEqual(msg1.objects.all()['room'], msg2.objects.all()['room'])
+        self.room.messages.add(msg1, msg2)
+        
+        test_room = Room.objects.filter( id = self.room.id)[0]
+        test_message = test_room.messages.all()[0]
+
+        print(test_room, test_message.body)
+
+        self.assertEqual(test_message.body, "Hola buenas")
 
     def test_get_room_from_users(self) -> Room:
         self.room.users.add(self.user1, self.user2)

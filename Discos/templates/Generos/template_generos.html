@@ -1,0 +1,33 @@
+{% extends "Base/header.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h1> Tabla de Generos </h1><br>
+    <p> Listado de todos los generos cargados en la base de datos </p><br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">#</th>
+            </tr>
+        </thead>
+        <tbody>         
+            {% for value in generos %} 
+            <tr>
+                <td scope="row">{{ value.nombre}}</td>
+                <td scope="row">
+                    <button>
+                        <a href="{% url 'editar_genero' value.id %}">Editar</a>
+                    </button></td>
+                <td scope="row">
+                    <button>
+                        <a href="{% url 'eliminar_genero' value.id %}">Eliminar</a>
+                    </button></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<!-- fin div container -->
+{% endblock %}

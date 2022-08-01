@@ -31,6 +31,9 @@ class RoomManager(models.Manager):
             return None
 
     def find_or_create(self, user1, user2):
+        """
+        Esta función nos permite o bien encontrar el hilo si es que existe o crear uno nuevo en caso de que no exista pasando como dato dos usuarios diferentes.
+        """
         room = self.find(user1, user2)
         if room is None:
             room = Room.objects.create()
