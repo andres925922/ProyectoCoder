@@ -41,6 +41,9 @@ class Canciones(Base):
         through='Canciones_Banda'
     )
     genero = models.ForeignKey(Genero, on_delete=models.PROTECT, null=False)
+    artistas = models.ManyToManyField(Artista,
+    through='Canciones_Artista'
+    )
 
     def __str__(self):
         return self.nombre
@@ -51,6 +54,14 @@ class Canciones_Banda(Base):
     )
     banda = models.ForeignKey(
         Banda, on_delete=models.CASCADE, blank=True, null=False
+    )
+
+class Canciones_Artista(Base):
+    cancion = models.ForeignKey(
+        Canciones, on_delete=models.CASCADE, blank=True, null=False
+    )
+    artista = models.ForeignKey(
+        Artista, on_delete=models.CASCADE, blank=True, null=False
     )
 
 admin.site.register([Genero, Discos, Canciones])

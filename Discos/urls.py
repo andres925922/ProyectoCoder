@@ -10,10 +10,10 @@ urlpatterns = [
     path('formulariodisco/', formulario_disco, name='discosformulario'),
     
     # Delete
-    path('eliminardisco/', eliminar_disco, name='eliminardisco'),
+    # path('eliminardisco/', eliminar_disco, name='eliminardisco'),
 
     # Update
-    path('editar/<pk>', Editardiscos.as_view(), name='disco_editar'),
+    # path('editar/<pk>', Editardiscos.as_view(), name='disco_editar'),
 
     # TODO: Ordenar los de abajo
     path('busquedadiscos/', busqueda_discos),

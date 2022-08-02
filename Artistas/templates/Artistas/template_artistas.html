@@ -44,7 +44,7 @@
           <div class="card-body module line-clamp">
             <h5 class="card-title">{{ value.nombre }} {{ value.apellido }}</h5>
             <p class="card-text">{{ value.historia }}</p>
-            {% if not request.user.is_authenticated  %}
+            {% if request.user.is_authenticated  %}
             <a href="{% url 'artista_detalle' value.id %}" class="btn btn-primary">Ver detalle</a>
             {% endif %}
           </div>

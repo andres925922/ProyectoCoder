@@ -7,11 +7,17 @@
     <div class="row">
 
         <div class="bd-example-snippet bd-code-snippet">
-            <p class="display-4">{{artista.nombre_artistico}}</p>
+            <p class="display-4">Nombre artístico: {{artista.nombre_artistico}} Banda: {{banda.nombre}}</p>
         
             <p class="display-6">Nombre Real {{artista.nombre}} {{artista.apellido}}</p>
         
             <p class="lead">{{artista.historia}}</p>
+
+            <p class="display-6">Sus discos</p>
+
+            {% for disco in discos %}
+            <li><a href="{% url 'discos-detail' disco.id %}">{{disco.nombre}}</a></li><br>
+            {% endfor %}
 
             <a href="{% url 'editar_artista' artista.id %}">Actualizar información</a>
         </div>

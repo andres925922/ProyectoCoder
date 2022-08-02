@@ -6,7 +6,8 @@ from Base.services.base_service import get_information
 from .services.service_artistas import (
 get_all_artistas,
 get_artista, 
-get_artista_por_nombre_y_apellido
+get_artista_por_nombre_y_apellido,
+get_discos_y_bandas_por_artista
 )
 from .services.service_bandas import (
     get_all_bandas,
@@ -22,7 +23,11 @@ from django.contrib.auth.decorators import login_required
 # @login_required(login_url='login/')
 def render_view_artistas(request):
 
-    information = get_information(request.user)
+    if request.user.is_authenticated:
+        information = get_information(request.user)
+    else:
+        information = {}
+
     information['artistas'] = get_all_artistas()
   
     return render(
@@ -37,6 +42,8 @@ def render_view_artista_detalle(request, id):
     information = get_information(request.user)
     try:
         information['artista'] = get_artista(id = id)
+        information['banda'] = information['artista'].banda
+        information['discos'] = get_discos_y_bandas_por_artista(information['artista'].id)
     except:
         return redirect(render_view_artistas)
   

@@ -35,7 +35,14 @@ def get_avatar(user):
         return None
 
 def get_information(user):
-    return {
-        'avatar': get_avatar(user.id),
-        'founders': get_about()
-    }
+
+    if user != 'AnonymousUser':
+        return {
+            'avatar': get_avatar(user.id),
+            'founders': get_about()
+        }
+    else:
+        return {
+            'avatar': None,
+            'founders': get_about()
+        }
