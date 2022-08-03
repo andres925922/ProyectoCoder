@@ -84,5 +84,24 @@ En el archivo test.py de la app se generaron algunos de los test unitarios para 
 # TESTS
 Los test unitarios si existen se encuentran cargados sobre cada app. En la carpeta test pueden verse en un excel los test cargados.
 
+# Data inicial
+******
+Andrés Convertini
+02/08/2022
+Versión 00
+******
+Andres Convertini
+Si lo desea puede importar algunos datos iniciales para testar algunas funcionalidades.
+Para realizar este import debe:
+1) Iniciar la consola de django mediante el comando python manage.py shell
+2) Importar la librería base 
+from Base.initial import *
+3) Ejecutar las funciones en el orden que se detallan:
+* crear_bandas()
+* crear_generos()
+* crear_artistas_coldplay()
+* crear_discos_coldplay()
+
+
 
 

@@ -21,12 +21,19 @@ class About_DTO():
         return DTO(x = person)
 
 def get_about():
+    """
+    # Función que retorna la data de los creadores de la aplicación
+    """
     return [
         About_DTO
         ._dto_constructor_about(person, About_DTO) for person in About.objects.all()
         ]
 
 def get_avatar(user):
+    """
+    # user: User
+    # Función que permite obtener el avatar del usuario
+    """
     avatar = Avatar.objects.select_related().filter(user = user)[0].img
 
     if avatar:

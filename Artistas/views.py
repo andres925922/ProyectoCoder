@@ -22,6 +22,10 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 # @login_required(login_url='login/')
 def render_view_artistas(request):
+    """
+    # Esta vista permite listar todos los artistas.
+    # Si el usuario está logueado podrá ver sus datos y su avatar y navegar a otras ventanas, de lo contrario no podrá hacer nada mas que logurarse
+    """
 
     if request.user.is_authenticated:
         information = get_information(request.user)
@@ -38,6 +42,9 @@ def render_view_artistas(request):
 
 @login_required(login_url='login/')
 def render_view_artista_detalle(request, id):
+    """
+    # Vista que permite listar la data de un artista, sus discos y la banda a la que pertenece
+    """
 
     information = get_information(request.user)
     try:
@@ -56,7 +63,16 @@ def render_view_artista_detalle(request, id):
 @login_required(login_url='login/')
 def render_view_bandas(request):
 
-    information = get_information(request.user)
+    """ 
+    # Vista que permite listar las bandas cargadas en la base de datos
+    # Tomamos el mismo criterio que para los artistas, si el usuario no está logueado no podrá visualizar sus datos.
+    """
+    if request.user.is_authenticated:
+        information = get_information(request.user)
+    else:
+        information = {}
+
+    # information = get_information(request.user)
     information['bandas'] = get_all_bandas()
 
     return render(
@@ -67,6 +83,9 @@ def render_view_bandas(request):
 
 @login_required(login_url='login/')
 def render_view_formulario_bandas(request):
+    """
+    # Función para creación de bandas
+    """
     if request.method == "POST":
         formulario = Banda_Formulario(request.POST)
         if formulario.is_valid:
@@ -84,6 +103,9 @@ def render_view_formulario_bandas(request):
 
 @login_required(login_url='login/')
 def render_view_formulario_artistas(request):
+    """
+    # Función para la creación de artistas
+    """
     information = get_information(request.user)
     if request.method == 'POST':
         formulario = Artista_Formulario(request.POST)
@@ -110,6 +132,10 @@ def render_view_formulario_artistas(request):
 
 @login_required(login_url='login/')
 def render_view_editar_artista(request, id):
+    """
+    # Formulario para editar artistas
+    # Debe enviarse la id en la url
+    """
     artista = get_artista(id=id)
     information = get_information(request.user)
     if request.method == 'POST':

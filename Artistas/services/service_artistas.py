@@ -5,9 +5,15 @@ from Discos.models import Discos
 
 
 def get_all_artistas():
-    return Artista.objects.all()
+    """
+    # Servicio que retorna todos los artistas que se encuentran activos
+    """
+    return Artista.objects.all(deleted = False)
 
 def get_artista(id):
+    """
+    # Servicio que permite obtener la información de un artista en particular
+    """
     try:
         return Artista.objects.get(id = id)
     except:
@@ -17,6 +23,10 @@ def get_artista_por_nombre_y_apellido(nombre, apellido):
     return Artista.objects.filter(nombre = nombre).filter(appelido = apellido)
 
 def get_discos_y_bandas_por_artista(artista: int):
+    """ 
+    # artista: int
+    # Servicio que permite obtener los discos de la banda a la cual pertenece el artista
+    """
     artista = Artista.objects.get(id = artista)
     banda = artista.banda
 
