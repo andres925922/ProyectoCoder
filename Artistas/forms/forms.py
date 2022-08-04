@@ -25,4 +25,4 @@ class Banda_Formulario(forms.ModelForm):
 
     class Meta:
         model = Banda
-        fields = ['nombre']
+        fields = ['nombre', 'historia_banda']

@@ -5,6 +5,7 @@ from Clientes.models import Persona
 # Create your models here.
 class Banda(Base):
     nombre = models.CharField(max_length=100, unique=True)
+    historia_banda = models.TextField(blank=True, null = True)
     # genero
 
     def __str__(self) -> str:

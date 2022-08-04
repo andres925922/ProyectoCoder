@@ -19,6 +19,10 @@
             <li><a href="{% url 'discos-detail' disco.id %}">{{disco.nombre}}</a></li><br>
             {% endfor %}
 
+            <p class="display-6">Acerca de su banda</p>
+            <p class="lead">{{artista.banda.nombre}}</p>
+            <p class="lead">{{artista.banda.historia_banda}}</p>
+
             <a href="{% url 'editar_artista' artista.id %}">Actualizar información</a>
         </div>
         

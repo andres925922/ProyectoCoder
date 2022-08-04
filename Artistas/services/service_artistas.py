@@ -8,7 +8,7 @@ def get_all_artistas():
     """
     # Servicio que retorna todos los artistas que se encuentran activos
     """
-    return Artista.objects.all(deleted = False)
+    return Artista.objects.filter(deleted = False)
 
 def get_artista(id):
     """

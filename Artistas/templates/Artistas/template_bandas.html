@@ -1,0 +1,64 @@
+{% extends "Base/header.html" %}
+{% load static %}
+
+<style>
+    .module {
+  width: 250px;
+  margin: 0 0 1em 0;
+  overflow: hidden;
+    }
+
+    .module p {
+    margin: 0;
+    }
+
+    .line-clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    }
+</style>
+
+{% block content %}
+
+<div class="container">
+
+</div>
+
+<div>
+<div class="container"><div class="bd-example">
+    <h1>{% block title %} Bandas {% endblock %}</h1><br>
+    <div class="row">
+        <div class="col"><a href="{% url 'alta_bandas' %}">Agregar banda</a></div>
+    </div><br>
+    {% if bandas is None %}
+    <h3> No hay información disponible aún</h3>
+    {% endif %}
+    {% for value in bandas %}
+    <div class="row  row-cols-1 row-cols-md-2 g-4">
+       <div class="col">
+        <div class="card">
+          <div class="card-header">
+            {{ value.nombre }}
+          </div>
+          <div class="card-body module line-clamp">
+            <h5 class="card-title">{{ value.nombre }} {{ value.apellido }}</h5>
+            <p class="card-text">{{ value.historia_banda }}</p>
+            {% if request.user.is_authenticated  %}
+            <a href="{% url 'update_banda' value.id %}" class="btn btn-primary">Actualizar</a>
+            <a href="{% url 'delete_banda' value.id %}" class="btn btn-danger">Eliminar</a>
+            {% endif %}
+          </div>
+          <div class="card-footer text-muted">
+            Actualizado por última vez: {{ value.modificated_at }}
+          </div>
+        </div>
+      </div>
+    </div><br>
+    {% endfor %}
+    </div></div>
+
+</div>
+
+<!-- fin div container -->
+{% endblock %}

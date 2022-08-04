@@ -9,3 +9,6 @@ class EntityAlreadyCreatedError(Exception):
 
 class EntityCouldNotBeenCreated(Exception):
     pass
+
+class EntityCouldNotBeenDeletedError(Exception):
+    pass

@@ -11,7 +11,7 @@ python -m venv "nombre del entorno"
 pip install django
 
 # Idea de la aplicación
-El principio es armar un sitio donde un cliente pueda tener asociado discos con canciones que adquirió de un listado de discos disponibles. L intención es buscar discos por genero o por nombre y que al comprarlos el cliente tenga asociado el disco que adquirió.
+La idea es tener una página que permita ver los artistas musicales cargados, listar los discos en los que participó, las bandas en la que actualmente se desempeña e información adicional.
 
 # About us
 ******
@@ -29,16 +29,28 @@ Versión 03
 ******
 
 1) Listar todos los artistas desde la url localhost/artistas/. Login no es requerido
-2) Listar todas las bandas desde la url localhost/bandas/
+2) Listar todas las bandas desde la url localhost/artistas/view_bandas
 2) Cargar un nuevo artista desde la url localhost/artistas/alta/ o dar click en el botón 'Agregar Artista'
 3) Cargar una nueva banda desde la url localhost/artistas/alta_banda/
 
 ## Edición de un artista
 1) Para ver mas información del artista clickear en detalle donde lo llevará a la información del artista
 2) Para editar al artista dar click en Actualizar información en la pestaña de detalle del artista
-3) 
 
 Para ello el usuario debe estar registrado
+
+# Bandas
+******
+Andrés Convertini
+04/08/2022
+Versión 00
+Requiere login
+******
+
+1) Listar las bandas desde la dirección /artistas/view_bandas. Esto trae todas las bandas activas en la bd
+2) Actualizar bandas mediante el boton actualizar de cada uno de los box de la banda
+3) Crear una nueva banda desde el botón crear una nueva banda desde la vista view_bandas
+4) Eliminar una banda con el botón eliminar.
 
 # App Discos
 Todavía no se encuentra funcional

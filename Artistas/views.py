@@ -10,6 +10,8 @@ get_artista_por_nombre_y_apellido,
 get_discos_y_bandas_por_artista
 )
 from .services.service_bandas import (
+    create_or_update_banda,
+    delete_banda,
     get_all_bandas,
     get_banda
 )
@@ -77,7 +79,7 @@ def render_view_bandas(request):
 
     return render(
         request = request,
-        template_name='Bandas/template_bandas.html',
+        template_name='Artistas/template_bandas.html',
         context= information
     )
 
@@ -88,11 +90,11 @@ def render_view_formulario_bandas(request):
     """
     if request.method == "POST":
         formulario = Banda_Formulario(request.POST)
+
         if formulario.is_valid:
-            info = formulario.cleaned_data
-            print(info)
             banda = Banda(
-                nombre = info['nombre']
+                nombre = request.POST['nombre'],
+                historia_banda = request.POST['historia_banda']
             )
             banda.save()
             return redirect(render_view_bandas)
@@ -100,6 +102,56 @@ def render_view_formulario_bandas(request):
         formulario = Banda_Formulario()
 
     return render(request, 'Artistas/formulario_banda.html', {'form' : formulario})
+
+@login_required(login_url='login/')
+def render_view_update_bandas(request, id_banda = None):
+    """
+    # Función para actualizar bandas
+    """
+    if id_banda == None:
+        return redirect(render_view_bandas)
+
+    try:
+        banda = Banda.objects.get(id = id_banda)
+    except:
+        return redirect(render_view_bandas)
+
+    if request.method == "POST":
+        formulario = Banda_Formulario(request.POST)
+        if formulario.is_valid:
+            banda.nombre = request.POST['nombre']
+            banda.historia_banda = request.POST['historia_banda']
+            
+            try:
+                create_or_update_banda(banda=banda)
+                return redirect(render_view_bandas)
+            except:
+                return redirect(render_view_bandas)
+    else:
+        formulario = Banda_Formulario(instance=banda)
+
+    return render(request, 'Artistas/formulario_update_banda.html', {'form' : formulario})
+
+@login_required(login_url='login/')
+def view_delete_banda(request, id_banda = None):
+    """
+    # Función para actualizar bandas
+    """
+    if id_banda == None:
+        return redirect(render_view_bandas)
+
+    try:
+        banda = Banda.objects.get(id = id_banda)
+    except:
+        return redirect(render_view_bandas)
+
+    if request.method == "GET":
+            
+        try:
+            delete_banda(banda=banda)
+            return redirect(render_view_bandas)
+        except:
+            return redirect(render_view_bandas)
 
 @login_required(login_url='login/')
 def render_view_formulario_artistas(request):
