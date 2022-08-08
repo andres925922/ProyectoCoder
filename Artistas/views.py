@@ -42,7 +42,7 @@ def render_view_artistas(request):
         context = information
     )
 
-@login_required(login_url='login/')
+@login_required(login_url='/login')
 def render_view_artista_detalle(request, id):
     """
     # Vista que permite listar la data de un artista, sus discos y la banda a la que pertenece

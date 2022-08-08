@@ -7,6 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     {% block title %}<title></title>{% endblock %}
+    <style>
+        main.container {
+            min-width: 700px;
+            margin: 0 auto;
+        }
+    </style>
 </head>
     <body>
         <header class="p-3 mb border-bottom">
@@ -21,7 +27,6 @@
                             <li><a class="nav-link px-2 link-secondary" href="{% url 'discos_lista' %}"> Discos</a></li>
                             <li><a class="nav-link px-2 link-secondary" href="{% url 'all_artistas' %}"> Artistas</a></li>
                             <li><a class="nav-link px-2 link-secondary" href="{% url 'list_bandas' %}"> Bandas</a></li>
-
                             <!-- <li><a class="nav-link px-2 link-secondary" href="{% url 'all_artistas' %}"> Canciones</a></li> -->
                             <!-- <li><a href="#" class="nav-link px-2 link-dark">Products</a></li> -->
                         </ul>
@@ -38,19 +43,11 @@
                 </div>
             </div>
         </header>
-        <main>
+        <main class="container">
             {% block content %}
             {% endblock %}
-
-            
-
-
-
         </main>  
-    </body>  
-
-
-
+    </body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>

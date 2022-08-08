@@ -1,11 +1,25 @@
 {% extends "Base/header.html" %}
 {% load static %}
 {% block content %}
+<h1> Discos y generos </h1>
 
-<h1> Disco {{ object.nombre }} </h1>
-
-<p>
-    Publicado en {{ object.year }}. Dura en total {{ object.duration }} minutos.
-</p>
+<style>
+    table, tr {
+        border: 1px solid;
+    }
+    td {
+        padding: 5px;
+    }
+</style>
+<table>
+    <tr>
+        <td>Nombre</td>
+        <td>{{ object.nombre }}</td>
+    </tr>
+    <tr>
+        <td>Anio</td>
+        <td>{{ object.year }}</td>
+    </tr>
+</table>
 
 {% endblock %}

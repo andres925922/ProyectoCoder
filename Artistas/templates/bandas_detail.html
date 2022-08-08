@@ -1,0 +1,20 @@
+{% extends "Base/header.html" %}
+{% load static %}
+{% block content %}
+<h1>{{ object.nombre }}</h1>
+<style>
+    table, tr {
+        border: 1px solid;
+    }
+    td {
+        padding: 5px;
+    }
+</style>
+<p>
+    {% if object.historia_banda is None %}
+    {{"Este artista no tiene historia disponible."}}
+    {% else %}
+    {{ object.historia_banda }}
+    {% endif %}
+</p>
+{% endblock %}

@@ -22,9 +22,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('clientes/', include('Clientes.urls'), name='Clientes'),
     path('artistas/', include('Artistas.urls'), name='Artistas'),
-    path('', include('Discos.urls'), name='Discos'),
     path('usr/', include('Users.urls'), name="Users"),
     path('about/', include('Base.urls'), name='aboutUs'),
+    # Discos va a ser la pagina principal, y tambien la URI /discos
+    path('', include('Discos.urls'), name='Discos'),
+    path('discos/', include('Discos.urls'), name='Discos'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

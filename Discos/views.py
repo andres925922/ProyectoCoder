@@ -61,7 +61,7 @@ class Discoslist(ListView):
 
 class Discosdetalle(DetailView):
     model=Discos
-    template='Discos/template_discos/template_discos_detalle.html'
+    template_name='discos_detail.html'
 
 
 # ***********************************************************
