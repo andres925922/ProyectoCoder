@@ -17,4 +17,10 @@
     {{ object.historia_banda }}
     {% endif %}
 </p>
+<h3>Discos relacionados</h3>
+<ul>
+    {%for disco in discos%}
+        <li><a href="{%url 'discos-detail' disco.id %}">{{disco.nombre|title}}</a></li>
+    {%endfor%}
+</ul>
 {% endblock %}

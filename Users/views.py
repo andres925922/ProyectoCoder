@@ -38,7 +38,7 @@ def request_login(request):
         else:
             return HttpResponse("Error en el formulario")
 
-    form = User_Auth_Form()
+    # form = User_Auth_Form()
     return render(request, 'Users/login.html', {"form": form} )
 
 def create_user(request):

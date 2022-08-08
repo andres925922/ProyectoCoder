@@ -25,7 +25,6 @@ urlpatterns = [
     path('usr/', include('Users.urls'), name="Users"),
     path('about/', include('Base.urls'), name='aboutUs'),
     # Discos va a ser la pagina principal, y tambien la URI /discos
-    path('', include('Discos.urls'), name='Discos'),
     path('discos/', include('Discos.urls'), name='Discos'),
 ]
 

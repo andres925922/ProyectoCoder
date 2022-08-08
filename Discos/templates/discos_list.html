@@ -5,8 +5,12 @@
 <h1> Discos</h1>
 
 {% for disco in object_list %}
-    <!-- TODO: Cambiar esto para que use rever     -->
-    <li><a href="/discos/{{disco.id}}">{{ disco.nombre | title }}</a> por <a href="{% url 'detail_bandas' disco.banda.id %}">{{ disco.banda.nombre }}</a></li>
+    <li>
+        <a href="/discos/{{disco.id}}">
+            {{ disco.nombre | title }}
+        </a> por <a href="{% url 'detail_bandas' disco.banda.id %}">
+            {{ disco.banda.nombre }}
+        </a>
+    </li>
 {% endfor %}
-
 {% endblock %}
