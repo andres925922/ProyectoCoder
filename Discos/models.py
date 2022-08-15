@@ -16,6 +16,7 @@ class Discos(Base):
     banda = models.ForeignKey(
         to= Banda, on_delete=models.PROTECT
     )
+    portada = models.ImageField(upload_to='Discos', null=True, blank=True)
 
     def __str__(self):
         return self.nombre

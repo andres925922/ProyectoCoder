@@ -89,12 +89,12 @@ def render_view_formulario_bandas(request):
     # Función para creación de bandas
     """
     if request.method == "POST":
-        formulario = Banda_Formulario(request.POST)
-
+        formulario = Banda_Formulario(request.POST, request.FILES)
         if formulario.is_valid:
             banda = Banda(
                 nombre = request.POST['nombre'],
-                historia_banda = request.POST['historia_banda']
+                historia_banda = request.POST['historia_banda'],
+                imagen = request.FILES['imagen']
             )
             banda.save()
             return redirect(render_view_bandas)
@@ -117,11 +117,11 @@ def render_view_update_bandas(request, id_banda = None):
         return redirect(render_view_bandas)
 
     if request.method == "POST":
-        formulario = Banda_Formulario(request.POST)
+        formulario = Banda_Formulario(request.POST, request.FILES)
         if formulario.is_valid:
             banda.nombre = request.POST['nombre']
             banda.historia_banda = request.POST['historia_banda']
-            
+            banda.imagen = request.FILES['imagen']
             try:
                 create_or_update_banda(banda=banda)
                 return redirect(render_view_bandas)
@@ -169,7 +169,8 @@ def render_view_formulario_artistas(request):
                     apellido = request.POST['apellido'],
                     nombre_artistico = request.POST['nombre_artistico'],
                     banda = banda,
-                    historia = request.POST['historia']
+                    historia = request.POST['historia'],
+                    imagen = request.FILES['imagen']
                 )
                 artista.save()
                 return redirect(render_view_artistas)
@@ -191,7 +192,7 @@ def render_view_editar_artista(request, id):
     artista = get_artista(id=id)
     information = get_information(request.user)
     if request.method == 'POST':
-        formulario = Artista_Formulario(request.POST, instance=artista)
+        formulario = Artista_Formulario(request.POST, request.FILES, instance=artista)
         if formulario.is_valid:
             try:
                 banda = get_banda(request.POST['banda'])

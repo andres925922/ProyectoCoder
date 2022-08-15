@@ -11,8 +11,9 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 
 from .models import Avatar, Room, Message
+from .services.user_service import get_my_user
 from django.contrib.auth.models import User
-from Base.services.base_service import get_information
+from Base.services.base_service import get_avatar, get_information
 
 from Clientes.views import render_view_clientes
 
@@ -37,8 +38,10 @@ def request_login(request):
 
         else:
             return HttpResponse("Error en el formulario")
+    else:
 
-    # form = User_Auth_Form()
+        form = User_Auth_Form()
+
     return render(request, 'Users/login.html', {"form": form} )
 
 def create_user(request):
@@ -58,22 +61,32 @@ def create_user(request):
 
 def edit_user(request):
 
-    usuario = request.user
+    username = request.user
+
+    if request.user.is_authenticated:
+        information = get_information(request.user)
+    else:
+        information = {}
+
+    try:
+        usuario = get_my_user(username=username)
+    except:
+        return redirect(request_login)
 
     if request.method == "POST":
-        form = User_Update_Form(request.POST)
+        form = User_Update_Form(request.POST, instance = usuario)
         if form.is_valid():
             form.save()
-            return redirect(render_view_clientes)
+            return redirect(render_view_artistas)
     else:
-        form = User_Update_Form(initial={
-            'email': usuario.email
-        })
+        form = User_Update_Form(instance = usuario)
 
-    return render(request, 'Users/user_update_form.html', {
-        'form': form,
-        'usuario': usuario
-    })
+    information['form'] = form
+    information['usuario'] = usuario.username
+    # information['avatar_form'] = get_avatar(usuario)
+
+
+    return render(request, 'Users/user_update_form.html', context = information)
 
 def logout_view(request):
     logout(request)

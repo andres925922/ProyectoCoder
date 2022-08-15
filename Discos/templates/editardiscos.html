@@ -1,8 +1,24 @@
 {% extends "Base/header.html" %}
 {% load static %}
-{% block title %}
-<h1> Editar discos</h1>
 
+<h1>{% block title %} Editar discos {% endblock %}</h1>
 
-{% endfor %}
+{% block content %}
+<div class="container">
+    <h1> Carga Discos </h1><br>
+
+    <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+        
+        <table>
+
+            {{ form.as_table }}
+
+        </table>
+        <input type="submit", value="Enviar">
+    </form>
+</div>
+<!-- fin div container -->
 {% endblock %}
+
+
+

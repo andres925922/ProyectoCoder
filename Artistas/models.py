@@ -6,6 +6,7 @@ from Clientes.models import Persona
 class Banda(Base):
     nombre = models.CharField(max_length=100, unique=True)
     historia_banda = models.TextField(blank=True, null = True)
+    imagen = models.ImageField(upload_to='Bandas/', null=True, blank=True)
     # genero
 
     def __str__(self) -> str:
@@ -14,6 +15,7 @@ class Banda(Base):
 class Artista(Persona):
     nombre_artistico = models.CharField(max_length=50, null=True, unique=True)
     banda = models.ForeignKey(Banda, on_delete=models.SET_NULL, null=True)
+    imagen = models.ImageField(upload_to='Artistas/', null=True, blank=True)
     historia = models.TextField(null=False, default='')
     # banda = models.ManyToManyField(
     #     Banda, 

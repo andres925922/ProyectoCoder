@@ -24,26 +24,27 @@ Para navegar a la página de about us simplemente dirigirse a /about/
 # App Artistas
 ******
 Andrés Convertini
-31/07/2022
-Versión 03
+15/08/2022
+Versión 04
 ******
 
 1) Listar todos los artistas desde la url localhost/artistas/. Login no es requerido
 2) Listar todas las bandas desde la url localhost/artistas/view_bandas
-2) Cargar un nuevo artista desde la url localhost/artistas/alta/ o dar click en el botón 'Agregar Artista'
-3) Cargar una nueva banda desde la url localhost/artistas/alta_banda/
+3) Cargar un nuevo artista desde la url localhost/artistas/alta/ o dar click en el botón 'Agregar Artista'
+4) Cargar una nueva banda desde la url localhost/artistas/alta_banda/
 
 ## Edición de un artista
 1) Para ver mas información del artista clickear en detalle donde lo llevará a la información del artista
 2) Para editar al artista dar click en Actualizar información en la pestaña de detalle del artista
+3) En la versión 4 de la app se permite guardar imágenes del artista y de la banda.
 
 Para ello el usuario debe estar registrado
 
 # Bandas
 ******
 Andrés Convertini
-04/08/2022
-Versión 00
+15/08/2022
+Versión 01
 Requiere login
 ******
 
@@ -51,20 +52,30 @@ Requiere login
 2) Actualizar bandas mediante el boton actualizar de cada uno de los box de la banda
 3) Crear una nueva banda desde el botón crear una nueva banda desde la vista view_bandas
 4) Eliminar una banda con el botón eliminar.
+5) En la versión 1 se permite guardar imágenes de las bandas.
 
 # App Discos
-Todavía no se encuentra funcional
+******
+Andrés Convertini
+15/08/2022
+Versión 00
+******
+
+1) El listado de discos se encuentra en la url /
+2) Sobre este listado se encuentran los botones que permiten cargar un disco, editar, borrar y ver detalles
+
 
 # App Usuarios
 ******
 Andrés Convertini
-19/07/2022
-Versión 00
+15/08/2022
+Versión 01
 ******
 Hasta ahora se permite:
 1) Iniciar sesión mediante el boton Login
 2) Darse de alta desde el boton Sign up
 3) Cerrar sesión desde el boton Log Out
+4) A partir de la versión 1 se permite editar el perfil del usuario mediante el click sobre el ícono avatar del usuario. 
 
 ## Función Mensajes 
 

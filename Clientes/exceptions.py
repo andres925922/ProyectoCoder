@@ -1,2 +1,0 @@
-class BaseEntityNotFoundError(Exception):
-    pass

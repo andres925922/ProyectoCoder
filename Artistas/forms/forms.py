@@ -19,10 +19,19 @@ class Artista_Formulario(forms.ModelForm):
 
     class Meta:
         model = Artista
-        fields = ['nombre', 'apellido', 'nombre_artistico', 'banda', 'historia']
+        fields = ['nombre', 
+        'apellido', 
+        'nombre_artistico', 
+        'banda', 
+        'historia', 
+        'imagen']
+
+    def clean(self):
+        print(self.cleaned_data)
+        return self.cleaned_data
 
 class Banda_Formulario(forms.ModelForm):
 
     class Meta:
         model = Banda
-        fields = ['nombre', 'historia_banda']
+        fields = ['nombre', 'historia_banda', 'imagen']

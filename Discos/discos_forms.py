@@ -1,5 +1,9 @@
 from django import forms
+from .models import Discos
 
-class Discosformularios(forms.Form):
-    nombre_de_album=forms.CharField()
-    year_lanzamiento=forms.IntegerField()
+class Discosformularios(forms.ModelForm):
+
+    class Meta:
+
+        model = Discos
+        fields = ['nombre', 'year', 'duration', 'banda', 'portada']

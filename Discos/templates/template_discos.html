@@ -1,13 +1,18 @@
+
+
 {% extends "Base/header.html" %}
 {% load static %}
-{% block title %}
-<h1> Discos y generos </h1>
+{% block content %}
+
+<h1>
+{% block title %} Nuevo Disco {% endblock %}
+</h1>
 
 {% if form_discos.errors %}
 <p style="color:red"> Estan mal los datos, revisar</p>
 {% endif %}
 
-<form action="" method="POST">{% csrf_token %}
+<form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
 
     <table>
         {{ form_discos.as_table }}

@@ -6,6 +6,8 @@ from django.shortcuts import render, redirect
 from Base.exceptions import BaseEntityNotFoundError
 from Discos.models import Discos, Genero
 from django.http import HttpResponse, Http404
+
+from ProyectoCoder.settings import BASE_DIR
 from .discos_forms import Discosformularios
 from django.views.generic import ListView, UpdateView
 from django.views.generic import DetailView, CreateView
@@ -32,22 +34,6 @@ def render_view_discos(request):
     else:
         return HttpResponse(discos[0].nombre)
 
-
-def formulario_disco(request):
-    if request.method == 'POST':
-        form_discos=Discosformularios(request.POST)
-        print(form_discos)
-        if form_discos.is_valid:
-            informacion=form_discos.cleaned_data
-            formulario=Discos(nombre=informacion['nombre_de_album'], anio=informacion['year_lanzamiento'])
-            formulario.save()
-            return render(request, 'Discos\template_discos\template_discos.html')
-    else: 
-        form_discos=Discosformularios()
-    return render(request,'Discos/template_discos/template_discos.html'), {'form_discos':form_discos}
-   
-
-
 def busqueda_discos(request):
     return render(request, 'Discos/template_discos/busqueda_discos.html')
 
@@ -62,6 +48,62 @@ class Discoslist(ListView):
 class Discosdetalle(DetailView):
     model=Discos
     template_name='discos_detail.html'
+
+
+def formulario_disco(request):
+    """
+    # Función para crear discos
+    """
+    if request.method == 'POST':
+        form_discos=Discosformularios(request.POST)
+        if form_discos.is_valid:
+            form_discos.save()
+            return redirect('discos-list')
+    else: 
+        form_discos=Discosformularios()
+
+    return render(request,'template_discos.html', {'form_discos':form_discos})
+
+def eliminar_disco(request, id_disco = None):
+    """
+    # Función para eliminar discos
+    """
+    if id_disco != None and request.method == "GET":
+        
+        disco = Discos.objects.filter(id = id_disco)[0]
+
+        if disco:
+            # disco.deleted == True
+            disco.delete()
+
+    return redirect('discos-list')
+
+
+
+def editar_disco(request, id_disco = None):
+    """
+    # Función para actualizar discos
+    """
+    if id_disco == None:
+        return redirect('discos-list')
+
+    try:
+        disco = Discos.objects.get(id = id_disco)
+    except:
+        return redirect('discos-list')
+
+    if request.method == "POST":
+        formulario = Discosformularios(request.POST, request.FILES, instance=disco)
+        if formulario.is_valid:
+            formulario.save()
+            return redirect('discos-list')
+
+    else:
+        formulario = Discosformularios(instance=disco)
+
+    return render(request, 'editardiscos.html', {'form' : formulario})
+
+
 
 
 # ***********************************************************

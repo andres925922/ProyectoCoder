@@ -2,15 +2,51 @@
 {% load static %}
 {% block content %}
 
-<h1> Discos</h1>
 
-{% for disco in object_list %}
-    <li>
-        <a href="/discos/{{disco.id}}">
+<div>
+<div class="container"><div class="bd-example">
+    <h1>{% block title %} Discos {% endblock %}</h1><br>
+    <div class="row">
+        <div class="col"><a href="{% url 'discosformulario' %}">Agregar disco</a></div>
+    </div><br>
+    {% if object_list is None %}
+    <h3> No hay información disponible aún</h3>
+    {% endif %}
+    {% for disco in object_list %}
+    <div class="row  row-cols-1 row-cols-md-2 g-4">
+       <div class="col">
+        <div class="card">
+          <div class="card-header">
             {{ disco.nombre | title }}
-        </a> por <a href="{% url 'detail_bandas' disco.banda.id %}">
-            {{ disco.banda.nombre }}
-        </a>
-    </li>
-{% endfor %}
+          </div>
+          <div class="card-body module line-clamp">
+            <div class="card-title">
+                <a href="{% url 'discos-detail' disco.id %}">
+                {{ disco.nombre | title }}
+                </a>
+            </div>
+            <div class="card-text">
+                </a> por <a href="{% url 'detail_bandas' disco.banda.id %}">
+                    {{ disco.banda.nombre }}
+                </a>
+            </div>
+            <img src="/media/{{disco.imagen}}" class="card-img" alt=""><br><br>
+            {% if request.user.is_authenticated  %}
+            <a href="{% url 'discos-detail' disco.id %}" class="btn btn-primary">Detalles</a>
+            <a href="{% url 'disco_editar' disco.id %}" class="btn btn-primary">Actualizar</a>
+            <a href="{% url 'eliminardisco' disco.id %}" class="btn btn-danger">Eliminar</a>
+            {% endif %}
+          </div>
+          <div class="card-footer text-muted">
+            Actualizado por última vez: {{ value.modificated_at }}
+          </div>
+        </div>
+      </div>
+    </div><br>
+    {% endfor %}
+    </div></div>
+
+</div>
+
+
 {% endblock %}

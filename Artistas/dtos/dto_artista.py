@@ -10,6 +10,7 @@ class DTO_Artista():
         self.nombre_artistico = kargs.get('x')['nombre_artistico']
         self.banda = kargs.get('x')['banda']
         self.historia = kargs.get('x')['historia']
+        self.imagen = kargs.get('x')['imagen']
 
 
 class DTO_Artista_Extended(DTO_Artista):

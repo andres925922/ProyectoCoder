@@ -4,21 +4,21 @@ from Discos.views import *
 urlpatterns = [
     # Read
     path('', Discoslist.as_view(), name="discos-list"),
-    path('<pk>', Discosdetalle.as_view(), name='discos-detail'),
+    path('/<pk>', Discosdetalle.as_view(), name='discos-detail'),
 
     # Create
     path('formulariodisco/', formulario_disco, name='discosformulario'),
     
     # Delete
-    # path('eliminardisco/', eliminar_disco, name='eliminardisco'),
+    path('eliminardisco/<id_disco>', eliminar_disco, name='eliminardisco'),
 
     # Update
-    # path('editar/<pk>', Editardiscos.as_view(), name='disco_editar'),
+    path('editar/<id_disco>', editar_disco, name='disco_editar'),
 
     # TODO: Ordenar los de abajo
     path('busquedadiscos/', busqueda_discos),
     path('buscar/', buscar),
-    path('listadiscos/', Discoslist.as_view(),name='discos_lista'),
+    path('', Discoslist.as_view(),name='discos_lista'),
 
     # generos
 

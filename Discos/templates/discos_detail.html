@@ -1,9 +1,9 @@
 {% extends "Base/header.html" %}
 {% load static %}
 {% block content %}
-<h1> Discos y generos </h1>
 
-<style>
+
+<!-- <style>
     table, tr {
         border: 1px solid;
     }
@@ -20,6 +20,25 @@
         <td>Anio</td>
         <td>{{ object.year }}</td>
     </tr>
-</table>
+</table> -->
+
+
+<div class="container">
+    <div class="row">
+
+        <div class="bd-example-snippet bd-code-snippet">
+            <p class="display-4">Título: {{object.nombre}}</p>
+            <img src="/media/{{object.portada}}" class="lead" alt="">
+        
+            <p class="display-6">Lanzamiento: {{object.year}}</p>
+            <p class="display-6">Duración: {{object.duration}}</p>
+            
+
+            <a href="{% url 'disco_editar' object.id %}">Actualizar información</a>
+        </div>
+        
+
+    </div>
+</div>
 
 {% endblock %}
