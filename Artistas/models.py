@@ -1,6 +1,5 @@
 from django.db import models
-from Base.models import Base
-from Clientes.models import Persona
+from Base.models import Base, Persona, PersonaMixin
 
 # Create your models here.
 class Banda(Base):

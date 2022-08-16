@@ -15,8 +15,6 @@ from .services.user_service import get_my_user
 from django.contrib.auth.models import User
 from Base.services.base_service import get_avatar, get_information
 
-from Clientes.views import render_view_clientes
-
 from Base.exceptions import EntityCouldNotBeenCreated, BaseEntityNotFoundError
 
 # Create your views here.
@@ -50,7 +48,7 @@ def create_user(request):
         form = User_Creation_Form(request.POST)
         if form.is_valid():
             form.save()
-            return redirect(render_view_clientes)
+            return redirect(render_view_artistas)
     else:
         form = User_Creation_Form()
 
